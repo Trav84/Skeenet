@@ -1,0 +1,42 @@
+{
+  "name": "Skeenet",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "url": "git@github.com:Trav84/Skeenet.git",
+    "type": "git"
+  },
+  "author": "travisczerw <travis.czerw@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "redux-logger": "^3.0.6",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react",
+      "stage-2"
+    ]
+  },
+  "scripts": {
+    "start": "webpack-dev-server --progress --colors",
+    "build": "NODE_ENV='production' webpack --progress --colors -p"
+  }
+}
