@@ -1,16 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import ScoreForm from './containers/ScoreForm.js';
-import { createStore, applyMiddleware } from 'redux';
 import app from './reducers/reducers';
-import * as actions from './actions/actions';
+import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+// import { fetchSingleGameScore } from './actions/actions';
+import Statistics from "./containers/Statistics";
+import ScoreForm from "./containers/ScoreForm";
+import Header from "./components/Header";
+
+let storeMiddleware = [
+  logger,
+  thunk
+];
 
 const store = createStore(
   app,
-  applyMiddleware(logger)
+  applyMiddleware(...storeMiddleware)
 );
+
 
 // store.dispatch(actions.postScore(290));
 // store.dispatch(actions.postScore(190));
@@ -19,7 +28,11 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <ScoreForm />
+    <div>
+      <Header />
+      <Statistics />
+      <ScoreForm />
+    </div>
   </Provider>,
   document.getElementById('react-mount')
 );

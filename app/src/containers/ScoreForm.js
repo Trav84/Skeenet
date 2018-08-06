@@ -9,7 +9,7 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     postScore: score => dispatch(postScore(score)),
     changeFrame: frame => dispatch(changeFrame(frame))

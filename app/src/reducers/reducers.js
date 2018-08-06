@@ -1,8 +1,7 @@
-//
-// const initialState = {
-//   frame: 0,
-//   score: []
-// };
+const game = {
+  teams: [],
+  season: {}
+};
 //
 // // Setup initial state.
 // function app(state = initialState, action) {
@@ -20,14 +19,19 @@
 //   }
 // }
 
-function scores(state = [], action) {
+function scores(state = { game }, action) {
+  let newState = state;
+
   switch(action.type) {
     case 'POST_SCORE':
-      let newState = state;
       newState.push(action.payload.score);
       return newState;
     case 'GET_SCORE':
       return state.score[action.frame];
+    case  'RECEIVED_SINGLE_GAME_SCORE':
+      newState = state;
+      newState = action.payload.score;
+      return newState;
     default:
       return state;
   }
