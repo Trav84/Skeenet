@@ -13,9 +13,10 @@ export function changeFrame() {
   }
 }
 
-export function getFrame() {
+export function changePlayer(currentIndex) {
   return {
-    type: 'GET_FRAME',
+    type: 'NEXT_PLAYER',
+    currentIndex
   }
 }
 
@@ -28,9 +29,7 @@ export function getScore() {
 export function receivedSingleGameScore(score) {
   return {
     type: 'RECEIVED_SINGLE_GAME_SCORE',
-    payload: {
-      score,
-    }
+    score,
   }
 }
 
@@ -38,6 +37,13 @@ export function fetchingSingleGameScore(bool) {
   return {
     type: 'FETCHING_SINGLE_GAME_SCORE',
     isLoading: bool
+  }
+}
+
+export function receivedSingleSeasonScores(season) {
+  return {
+    type: 'RECEIVED_SINGLE_SEASON_SCORES',
+    season
   }
 }
 
@@ -49,6 +55,16 @@ export function fetchSingleGameScore(id) {
       .then(response => response.json())
       .then((json) => {
         dispatch(receivedSingleGameScore(json));
+      })
+  }
+}
+
+export function fetchSingleSeasonScores(id) {
+  return (dispatch) => {
+    fetch('https://skeenet-api.herokuapp.com/seasons/' + id)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(receivedSingleSeasonScores(json));
       })
   }
 }

@@ -1,18 +1,20 @@
 import { connect } from 'react-redux';
-import { postScore, changeFrame } from "../actions/actions";
+import { postScore, changeFrame, changePlayer } from "../actions/actions";
 import ScoreForm from '../components/ScoreForm';
 
 const mapStateToProps = state => {
   return {
-    score: state.score,
-    frame: state.frame
+    activeGame: state.activeGame,
+    frame: state.frame,
+    currentPlayer: state.currentPlayer
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     postScore: score => dispatch(postScore(score)),
-    changeFrame: frame => dispatch(changeFrame(frame))
+    changeFrame: frame => dispatch(changeFrame(frame)),
+    changePlayer: index => dispatch(changePlayer(index))
   }
 };
 

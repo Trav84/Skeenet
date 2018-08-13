@@ -1,58 +1,88 @@
-const game = {
-  teams: [],
-  season: {}
+const initialGameState = {
+  game: {
+    teams: [],
+    season: {}
+  }
 };
-//
-// // Setup initial state.
-// function app(state = initialState, action) {
-//   switch(action) {
-//     case 'POST_SCORE':
-//       return  Object.assign({}, state, {
-//         score: scores(state.score, action.score)
-//       });
-//     case 'GET_SCORE':
-//       return Object.assign({}, state, {
-//         score: state.score[action.frame]
-//       });
-//     default:
-//       return state;
-//   }
-// }
 
-function scores(state = { game }, action) {
-  let newState = state;
+const initialActiveGameState = {
+  currentPlayer: 'Default',
+  scores: []
+};
 
+const initialSeasonState = {
+  season: {
+    year: '',
+    name: '',
+    teams: []
+  }
+};
+
+const initialCurrentPlayerState = {
+  players: ['Player 1', 'Player 2', 'Player 3'],
+  currentIndex: 0
+};
+
+function scores(state = initialGameState, action) {
   switch(action.type) {
-    case 'POST_SCORE':
-      newState.push(action.payload.score);
-      return newState;
-    case 'GET_SCORE':
-      return state.score[action.frame];
-    case  'RECEIVED_SINGLE_GAME_SCORE':
-      newState = state;
-      newState = action.payload.score;
-      return newState;
+    case 'RECEIVED_SINGLE_GAME_SCORE':
+      return action.score;
     default:
       return state;
   }
 }
 
-function frames(state = 0, action) {
+function season(state = initialSeasonState, action) {
   switch(action.type) {
-    case 'CHANGE_FRAME':
-      let newFrame = state;
-      newFrame++;
-      return newFrame;
-    case 'GET_FRAME':
-      return state;
+    case  'RECEIVED_SINGLE_SEASON_SCORES':
+      return action.season;
     default:
       return state;
+  }
+}
+
+function activeGame(state = initialActiveGameState, action) {
+  switch(action.type) {
+    case  'ADD_SCORE':
+      return Object.assign({}, state, {
+        scores : state.scores.concat(action.score)
+      });
+    default:
+      return state;
+  }
+}
+
+function frame(state = 0, action) {
+  switch(action.type) {
+    case 'CHANGE_FRAME':
+      return state + 1;
+    default:
+      return state;
+  }
+}
+
+function currentPlayer(state = initialCurrentPlayerState, action) {
+  switch(action.type) {
+    case 'NEXT_PLAYER':
+      let index = action.currentIndex;
+      if(action.currentIndex > state.length) {
+        index = 0;
+      }
+      else {
+        index++;
+      }
+      return state.players[index];
+    default:
+      return 'Player 1';
   }
 }
 
 export default function skeeballApp(state = {}, action) {
   return {
     score: scores(state.score, action),
-    frames: frames(state.frame, action)
+    frame: frame(state.frame, action),
+    season: season(state.season, action),
+    activeGame: activeGame(state.activeGame, action),
+    currentPlayer: currentPlayer(state.currentPlayer, action)
   }
 }
