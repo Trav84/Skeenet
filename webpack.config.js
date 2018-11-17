@@ -6,16 +6,13 @@ module.exports = {
   entry: './app/src/index.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'app/dist')
+    path: path.resolve(__dirname, 'public/')
   },
   devServer: {
     historyApiFallback: true
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-    })
+    new MiniCssExtractPlugin({})
   ],
   module: {
     rules: [

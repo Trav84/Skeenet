@@ -1,22 +1,21 @@
 export function postScore(score) {
   return {
     type: 'POST_SCORE',
-    payload: {
-      score
-    }
+    score
   }
 }
 
-export function changeFrame() {
+export function changeFrame(frame) {
   return {
     type: 'CHANGE_FRAME',
+    frame
   }
 }
 
-export function changePlayer(currentIndex) {
+export function changePlayer(currentPlayersIndex) {
   return {
     type: 'NEXT_PLAYER',
-    currentIndex
+    currentPlayersIndex
   }
 }
 
@@ -47,7 +46,78 @@ export function receivedSingleSeasonScores(season) {
   }
 }
 
+export function receivedCurrentSeasonTeams(teams) {
+  return {
+    type: 'RECEIVED_CURRENT_TEAMS',
+    teams
+  }
+}
+
+export function receivedCurrentTeamPlayers(players) {
+  return {
+    type: 'RECEIVED_CURRENT_TEAM_PLAYERS',
+    players
+  }
+}
+
+export function receivedCurrentOpponentPlayers(opponents) {
+  return {
+    type: 'RECEIVED_CURRENT_OPPONENT_PLAYERS',
+    opponents
+  }
+}
+
+export function receivedNewGame(newGame) {
+  return {
+    type: 'RECEIVED_NEW_GAME',
+    newGame
+  }
+}
+
 // THUNKS //
+export function createGame(teamId, opponentId) {
+  return (dispatch) => {
+    fetch('https://skeenet-api.herokuapp.com/games/?team_ids=' + teamId + ',' + opponentId)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(receivedNewGame(json));
+      })
+  }
+}
+
+export function fetchCurrentSeasonTeams() {
+  return (dispatch) => {
+    fetch('https://skeenet-api.herokuapp.com/teams/')
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(receivedCurrentSeasonTeams(json));
+      })
+  }
+}
+
+export function fetchCurrentTeamPlayers(teamId, team) {
+  return (dispatch) => {
+    fetch('https://skeenet-api.herokuapp.com/players/')
+      .then(response => response.json())
+      .then((json) => {
+        let currentPlayers = [];
+        json.players.forEach(function(player) {
+          player.teams.forEach(function(teams) {
+            if(teams.id === parseInt(teamId)) {
+              currentPlayers.push(player);
+            }
+          });
+        });
+
+        if(team === 'self') {
+          dispatch(receivedCurrentTeamPlayers(currentPlayers));
+        }
+        else {
+          dispatch(receivedCurrentOpponentPlayers(currentPlayers));
+        }
+      })
+  }
+}
 
 export function fetchSingleGameScore(id) {
   return (dispatch) => {
@@ -82,8 +152,6 @@ export function postingScore(score) {
       method: 'post',
       body: JSON.stringify(score)
     });
-
-
 
     // fetch('https://skeenet-api.herokuapp.com/scores/')
     //   .then(response => response.json())

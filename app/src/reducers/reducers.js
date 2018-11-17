@@ -1,13 +1,13 @@
 const initialGameState = {
   game: {
+    id: {},
     teams: [],
     season: {}
   }
 };
 
 const initialActiveGameState = {
-  currentPlayer: 'Default',
-  scores: []
+  scores: [{}, {}, {}]
 };
 
 const initialSeasonState = {
@@ -16,11 +16,6 @@ const initialSeasonState = {
     name: '',
     teams: []
   }
-};
-
-const initialCurrentPlayerState = {
-  players: ['Player 1', 'Player 2', 'Player 3'],
-  currentIndex: 0
 };
 
 function scores(state = initialGameState, action) {
@@ -43,37 +38,72 @@ function season(state = initialSeasonState, action) {
 
 function activeGame(state = initialActiveGameState, action) {
   switch(action.type) {
-    case  'ADD_SCORE':
+    case 'POST_SCORE':
       return Object.assign({}, state, {
         scores : state.scores.concat(action.score)
       });
+    case 'RECEIVED_NEW_GAME':
+
     default:
       return state;
   }
 }
 
-function frame(state = 0, action) {
+function frame(frame = 0, action) {
   switch(action.type) {
     case 'CHANGE_FRAME':
-      return state + 1;
+      if(action.frame < 10) {
+        console.log('Increment frame');
+        return ++frame;
+      }
+      else {
+        console.log('Leave frame alone');
+        return frame;
+      }
+    default:
+      return frame;
+  }
+}
+
+function teams(state = { teams: []}, action) {
+  switch(action.type) {
+    case 'RECEIVED_CURRENT_TEAMS':
+      return action.teams;
     default:
       return state;
   }
 }
 
-function currentPlayer(state = initialCurrentPlayerState, action) {
+function players(state = [{ nickname: 'Player 1'}, { nickname: 'Player 2'}, { nickname: 'Player 3'}], action) {
+  switch(action.type) {
+    case 'RECEIVED_CURRENT_TEAM_PLAYERS':
+      return action.players;
+    default:
+      return state;
+  }
+}
+
+function opponents(state = [{ nickname: 'Player 1'}, { nickname: 'Player 2'}, { nickname: 'Player 3'}], action) {
+  switch(action.type) {
+    case 'RECEIVED_CURRENT_OPPONENT_PLAYERS':
+      return action.opponents;
+    default:
+      return state;
+  }
+}
+
+function currentPlayerIndex(currentPlayersIndex = 0, players = [], action) {
   switch(action.type) {
     case 'NEXT_PLAYER':
-      let index = action.currentIndex;
-      if(action.currentIndex > state.length) {
-        index = 0;
+      if(action.currentPlayersIndex >= players.length - 1) {
+        currentPlayersIndex = 0;
       }
       else {
-        index++;
+        currentPlayersIndex++;
       }
-      return state.players[index];
+      return currentPlayersIndex;
     default:
-      return 'Player 1';
+      return currentPlayersIndex;
   }
 }
 
@@ -83,6 +113,9 @@ export default function skeeballApp(state = {}, action) {
     frame: frame(state.frame, action),
     season: season(state.season, action),
     activeGame: activeGame(state.activeGame, action),
-    currentPlayer: currentPlayer(state.currentPlayer, action)
+    currentPlayerIndex: currentPlayerIndex(state.currentPlayerIndex, state.players, action),
+    players: players(state.players, action),
+    teams: teams(state.teams, action),
+    opponents: opponents(state.opponents, action),
   }
 }
