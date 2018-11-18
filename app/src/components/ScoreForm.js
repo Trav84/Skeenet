@@ -119,7 +119,7 @@ class ScoreForm extends React.Component {
         <div className="score-form__current-player">Current Player: { this.props.players[this.props.currentPlayerIndex].nickname } </div>
         <div className="score-form__current-frame">Frame: { this.props.frame + 1}</div>
         <form onSubmit={ this._handleSubmit }>
-          <label htmlFor="score" className="score-form__score-label">Enter this frames' score.</label>
+          <label htmlFor="score" className="score-form__score-label">Enter this frames&#8217; score.</label>
           <input ref="score" type="number" id="score" name="score" className="score-form__input"/>
           <button type="submit" className="score-form__submit-button">Submit</button>
 

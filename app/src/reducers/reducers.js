@@ -1,11 +1,3 @@
-const initialGameState = {
-  game: {
-    id: {},
-    teams: [],
-    season: {}
-  }
-};
-
 const initialActiveGameState = {
   scores: [{}, {}, {}]
 };
@@ -15,6 +7,23 @@ const initialSeasonState = {
     year: '',
     name: '',
     teams: []
+  }
+};
+
+const initialWeekState = {
+  week: {
+    id: null,
+    season_id: null,
+    week_number: null
+  }
+};
+
+const initialGameState = {
+  game: {
+    id: null,
+    teams: [],
+    week: initialWeekState,
+    season: initialSeasonState
   }
 };
 

@@ -12,7 +12,7 @@ module.exports = {
     historyApiFallback: true
   },
   plugins: [
-    new MiniCssExtractPlugin({})
+    new MiniCssExtractPlugin({filename: "[name].css", chunkFilename: "[id].css"})
   ],
   module: {
     rules: [
@@ -29,6 +29,15 @@ module.exports = {
           },
           "css-loader"
         ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+                // fallback to style-loader in development
+                process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+                "css-loader",
+                "sass-loader"
+            ]
       }
     ]
   },
