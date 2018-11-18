@@ -1,3 +1,8 @@
+import SkeenetApi from '../../lib/skeenet_api'
+
+const SKEENET_API = "https://skeenet-api.herokuapp.com"
+const api = new SkeenetApi
+
 export function postScore(score) {
   return {
     type: 'POST_SCORE',
@@ -77,7 +82,7 @@ export function receivedNewGame(newGame) {
 // THUNKS //
 export function createGame(teamId, opponentId) {
   return (dispatch) => {
-    fetch('https://skeenet-api.herokuapp.com/games/?team_ids=' + teamId + ',' + opponentId)
+    api.get('/games/?team_ids=' + teamId + ',' + opponentId)
       .then(response => response.json())
       .then((json) => {
         dispatch(receivedNewGame(json));
@@ -87,7 +92,7 @@ export function createGame(teamId, opponentId) {
 
 export function fetchCurrentSeasonTeams() {
   return (dispatch) => {
-    fetch('https://skeenet-api.herokuapp.com/teams/')
+    api.get('/teams/')
       .then(response => response.json())
       .then((json) => {
         dispatch(receivedCurrentSeasonTeams(json));
@@ -97,7 +102,7 @@ export function fetchCurrentSeasonTeams() {
 
 export function fetchCurrentTeamPlayers(teamId, team) {
   return (dispatch) => {
-    fetch('https://skeenet-api.herokuapp.com/players/')
+    api.get('/players/')
       .then(response => response.json())
       .then((json) => {
         let currentPlayers = [];
@@ -121,7 +126,7 @@ export function fetchCurrentTeamPlayers(teamId, team) {
 
 export function fetchSingleGameScore(id) {
   return (dispatch) => {
-    fetch('https://skeenet-api.herokuapp.com/games/' + id)
+    api.get('/games/' + id)
       .then(response => response.json())
       .then((json) => {
         dispatch(receivedSingleGameScore(json));
@@ -131,7 +136,7 @@ export function fetchSingleGameScore(id) {
 
 export function fetchSingleSeasonScores(id) {
   return (dispatch) => {
-    fetch('https://skeenet-api.herokuapp.com/seasons/' + id)
+    api.get('/seasons/' + id)
       .then(response => response.json())
       .then((json) => {
         dispatch(receivedSingleSeasonScores(json));
@@ -148,12 +153,11 @@ export function fetchSingleSeasonScores(id) {
 // }
 export function postingScore(score) {
   return (dispatch) => {
-    fetch('https://skeenet-api.herokuapp.com/scores/', {
-      method: 'post',
-      body: JSON.stringify(score)
+    api.post('/scores/', {
+      score: score
     });
 
-    // fetch('https://skeenet-api.herokuapp.com/scores/')
+    // fetch(SKEENET_API + '/scores/')
     //   .then(response => response.json())
     //   .then((json) => {
     //     dispatch(receivedSingleGameScore(json))
@@ -161,6 +165,7 @@ export function postingScore(score) {
   }
 }
 
+// TODO: Is this used?
 export function itemsFetchData(url) {
   return (dispatch) => {
     dispatch(itemsIsLoading(true));

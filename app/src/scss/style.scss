@@ -1,0 +1,212 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+}
+
+.header {
+    height: 100px;
+    background: seagreen;
+}
+
+.header__nav {
+    display: flex;
+    padding: 15px;
+}
+
+.nav__item {
+    margin-right: 15px;
+    padding: 10px 15px;
+    border: 1px solid black;
+    border-radius: 3px;
+    color: black;
+    background: azure;
+    text-decoration: none;
+}
+
+.stat-table-wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.stat-table__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.stat-table__title {
+    flex: 1 1 100%;
+}
+
+.stat-table__select-label {
+    justify-self: flex-end;
+}
+
+.stat-table__select-year {
+    justify-self: flex-end;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+thead {
+    background: #eee;
+}
+
+table tr:nth-child(even) {
+    background-color: #eee;
+}
+
+thead td {
+    height: 20px;
+    text-align: center;
+}
+
+tbody td {
+    text-align: center;
+}
+
+td {
+    width: 50px;
+    padding: 5px;
+}
+
+table {
+    margin: 25px auto;
+    border-collapse: collapse;
+}
+
+th {
+    height: 50px;
+}
+
+tbody td:first-of-type {
+    width: 200px;
+}
+
+.button--enabled {
+    cursor: pointer;
+}
+
+.button--enabled:before {
+    display: none;
+    position: absolute;
+    top: -45px;
+    background: white;
+    width: 100px;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid black;
+}
+
+.button--enabled:hover:before {
+    display: block;
+}
+
+.button--enabled:after {
+    position: absolute;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 5px;
+    content: "\f069";
+    color: cornflowerblue;
+}
+
+.jailbait:before {
+    content: 'Jailbait';
+}
+
+.dirty-thirty:before {
+    content: 'Dirty Thirty'
+}
+
+.cougar:before {
+    content: 'Cougar';
+}
+
+.shocker:before {
+    content: 'Shocker';
+}
+
+.loop:before {
+    content: 'Loop 360';
+}
+
+.button {
+    position: relative;
+}
+
+/* Score Form */
+.score-form__component {
+    width: 150px;
+    margin: 100px auto;
+}
+
+.score-form__current-frame {
+    margin: 10px 0;
+    font-size: 24px;
+}
+
+.score-form__score-label {
+    display: none;
+}
+
+.score-form__input {
+    height: 50px;
+    width: 100px;
+    padding: 10px 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.score-form__submit-button {
+    width: 100px;
+    margin-top: 15px;
+    padding: 20px;
+    border-radius: 3px;
+    font-size: 18px;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.table__spacer {
+    background: seagreen;
+    border-top: seagreen;
+    border-bottom: seagreen;
+}
+
+.table__score {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.table__score:hover {
+    background: seagreen;
+    color: white;
+}
+
+.table__team-name {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.table__team-name:hover {
+    background: seagreen;
+    color: white;
+}
+
+.score-form__component {
+    margin: 200px auto;
+}
