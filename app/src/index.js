@@ -11,7 +11,7 @@ import Statistics from "./containers/Statistics";
 import ScoreForm from "./containers/ScoreForm";
 import SeasonStatistics from "./containers/SeasonStatistics";
 
-import './css/style.css';
+import './scss/style.scss';
 
 let storeMiddleware = [
   logger,

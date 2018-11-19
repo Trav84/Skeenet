@@ -12,47 +12,72 @@ class Statistics extends React.Component {
     this.props.fetchGameScore(matches[1]);
   }
 
+  playerAwards(player) {
+    let pClass = []
+    if (this.isDirtyThirty(player)) {
+      pClass.push('dirty-thirty button--enabled')
+    }
+    return pClass.join(" ")
+  }
+
+  frameAwards(score) {
+    let pClass = []
+    if (this.isJailbait(score)) {
+      pClass.push('jailbait button--enabled')
+    }
+    return pClass.join(" ")
+  }
+
+  isDirtyThirty(player) {
+    return player.total_score > 300
+  }
+
+  isJailbait(score) {
+    return score.points < 18
+  }
+
   render() {
-    let teams = this.props.score.game.teams;
+    let game = this.props.score.game
+    let teams = game.teams;
+    let week = game.week;
+    let season = game.season;
+    const frameRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
     return (
       <div className="stat-table-wrapper">
         <h1>Statistics Page</h1>
-        <h3>Game {this.props.score.game.id} of Season {this.props.score.game.season.id}, {this.props.score.game.season.name} of {this.props.score.game.season.year} </h3>
-        {teams.map((item, index) => (
-          <div>
-            <h3>Team: {item.name}</h3>
+        <h3>Game {week.week_number} of Season {season.id}, {season.name} of {season.year} </h3>
+        {teams.map((team, i) => (
+          <div key={i}>
+            <h3>Team: {team.name}</h3>
             <table>
               <thead>
               <tr>
                 <td>Player</td>
-                <td>Frame 1</td>
-                <td>Frame 2</td>
-                <td>Frame 3</td>
-                <td>Frame 4</td>
-                <td>Frame 5</td>
-                <td>Frame 6</td>
-                <td>Frame 7</td>
-                <td>Frame 8</td>
-                <td>Frame 9</td>
-                <td>Frame 10</td>
+                {frameRange.map((frame, i) => (
+                  <td key={i}>Frame {frame}</td>
+                ))}
                 <td className="table__spacer"></td>
                 <td>Final Score</td>
               </tr>
               </thead>
               <tbody>
-            {item.players.map(item => {
-              return <tr>
-                  <td>{item.first_name} "{item.nickname}" {item.last_name}</td>
-                  {item.scores.map(item => {
-                    return <td
-                      className={"button " + (item.points < 18 ? 'jailbait button--enabled' : '')}>{item.points}</td>;
-                  })}
-                  <td className="table__spacer"></td>
-                  <td className={"button " + (item.total_score > 300 ? 'dirty-thirty button--enabled' : '')}>{item.total_score}</td>
-                </tr>
-            })}
-                </tbody>
-              </table>
+
+                {team.players.map((player, j) => {
+                  return (<tr key={j}>
+                    <td>{player.first_name} "{player.nickname}" {player.last_name}</td>
+
+                    {player.scores.map((score, k) => {
+                      return (<td key={k} className={"button " + this.frameAwards(score)}>{score.points}</td>);
+                    })}
+
+                    <td className="table__spacer"></td>
+                    <td className={"button " + this.playerAwards(player)}>{player.total_score}</td>
+                  </tr>)
+                })}
+
+              </tbody>
+            </table>
           </div>
           )
         )}

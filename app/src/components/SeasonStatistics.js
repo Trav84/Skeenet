@@ -21,11 +21,13 @@ class SeasonStatistics extends React.Component {
 
   render() {
     let teams = this.props.season.season.teams;
+    let season = this.props.season.season;
+    const weeks = [1, 2, 3, 4, 5, 6, 7, 8]
     return (
       <div className="stat-table-wrapper">
         <div className="stat-table__header">
           <h1 className="stat-table__title">Season Overview</h1>
-          <h3 className="stat-table__current-season">Season { this.props.season.season.name } of { this.props.season.season.year }</h3>
+          <h3 className="stat-table__current-season">Season { season.name } of { season.year }</h3>
           <label className="stat-table__select-label" htmlFor="year">Previous Seasons</label>
           <select className="stat-table__select-year" name="year">
             <option value="2017">2017</option>
@@ -38,34 +40,31 @@ class SeasonStatistics extends React.Component {
           <thead>
             <tr>
               <td>Team</td>
-              <td>Week 1</td>
-              <td>Week 2</td>
-              <td>Week 3</td>
-              <td>Week 4</td>
-              <td>Week 5</td>
-              <td>Week 6</td>
-              <td>Week 7</td>
-              <td>Week 8</td>
-              <td>Week 9</td>
-              <td>Week 10</td>
+              {weeks.map((week, i) => (
+                <td key={i}>Week {week}</td>
+              ))}
               <td className="table__spacer"></td>
               <td>Season Average</td>
               <td>Season Best</td>
             </tr>
           </thead>
           <tbody>
-            {teams.map((item, index) => (
-              <tr>
-                <td className="table__team-name" data-team-id={ item.id } onClick={() => this._handleTeamClick(item.id)}>{ item.name }</td>
-                {item.scores.map((item, index) =>
-                  <td className="table__score" data-game-id={ item.game_id } onClick={() => this._handleGameClick(item.game_id)}>{ item.total }</td>
+
+            {teams.map((team, i) => (
+              <tr key={i}>
+                <td className="table__team-name" data-team-id={ team.id } onClick={() => this._handleTeamClick(team.id)}>{ team.name }</td>
+
+                {team.scores.map((score, j) =>
+                  <td key={j} className="table__score" data-game-id={ score.game_id } onClick={() => this._handleGameClick(score.game_id)}>{ score.total }</td>
                 )}
+
                 <td className="table__spacer"></td>
-                <td>{ item.average }</td>
-                <td>{ item.best }</td>
+                <td>{ team.average }</td>
+                <td>{ team.best }</td>
               </tr>
               )
             )}
+
           </tbody>
         </table>
       </div>
